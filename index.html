@@ -14,8 +14,8 @@
 
         </div>
 
-        <script type="text/ng-template" id="githubsearch-index.html">
-            <div class="jumbotron text-center" id="startpage">
+        <script type="text/ng-template" id="githubsearch-tpl-index">
+            <div class="jumbotron text-center is-top-aligned" id="startpage">
                 <h1>
                     <i class="fa fa-github-alt" aria-hidden="true"></i>
                     GitHub Search
@@ -36,11 +36,23 @@
             </div>
         </script>
 
+        <script type="text/ng-template" id="githubsearch-tpl-search-in-progress">
+            <div class="jumbotron text-center is-top-aligned" id="search-in-progress">
+                <h1>
+                    <small><i class="fa fa-github fa-spin fa-3x fa-fw margin-bottom"></i></small>
+                </h1>
+                <p>
+                    Warming up the flux capacitor, hang on&hellip;
+                </p>
+            </div>
+        </script>
+
         <script src="https://code.jquery.com/jquery-1.12.3.min.js" integrity="sha256-aaODHAgvwQW1bFOGXMeX+pC4PZIPsvn2h1sArYOhgXQ=" crossorigin="anonymous"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular-route.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-        <script src="js/controllers.js"></script>
+        <script src="js/modules/indexModule.js"></script>
+        <script src="js/modules/searchModule.js"></script>
         <script src="js/app.js"></script>
     </body>
 </html>
