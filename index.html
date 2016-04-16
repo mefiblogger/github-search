@@ -21,16 +21,18 @@
                     GitHub Search
                 </h1>
                 <p>Search for any GitHub projects and see what happens!</p>
-                <div class="input-group input-group-lg col-lg-6 col-md-6 col-sm-8">
-                    <span class="input-group-addon" id="basic-addon1">
-                        <i class="fa fa-search" aria-hidden="true"></i>
-                    </span>
-                    <input type="text" class="form-control" aria-describedby="basic-addon1">
-                </div>
-                <div>
-                    <a class="btn btn-primary btn-lg" href="#" role="button">Let's go</a>
-                    <a class="btn btn-default btn-lg" href="#" role="button">I'm feeling lucky</a>
-                </div>
+                <form novalidate>
+                    <div class="input-group input-group-lg col-lg-6 col-md-6 col-sm-8">
+                        <span class="input-group-addon" id="basic-addon1">
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                        </span>
+                        <input type="text" ng-model="searchterm.repo" class="form-control" aria-describedby="basic-addon1">
+                    </div>
+                    <div>
+                        <button type="submit" ng-click="search(searchterm)" class="btn btn-primary btn-lg">Let's go</button>
+                        <button type="button" ng-click="lucky()" class="btn btn-default btn-lg">I'm feeling lucky</button>
+                    </div>
+                </form>
             </div>
         </script>
 
