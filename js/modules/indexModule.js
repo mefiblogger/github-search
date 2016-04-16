@@ -7,7 +7,7 @@ indexModule.controller('IndexCtrl', function ($scope, $location) {
      * @param searchterm
      */
     $scope.search = function (searchterm) {
-        $location.path('search/' + searchterm.repo);
+        $location.path('search/' + encodeURI(searchterm.repo));
     };
 
     /**
