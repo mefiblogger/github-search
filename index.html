@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+
+        <title>GitHub Search</title>
+
+        <link rel="stylesheet" href="css/base.css" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous" />
+    </head>
+    <body ng-app="githubsearch">
+        <div class="container" ng-view>
+
+        </div>
+
+        <script type="text/ng-template" id="githubsearch-index.html">
+            <div class="jumbotron text-center" id="startpage">
+                <h1>
+                    <i class="fa fa-github-alt" aria-hidden="true"></i>
+                    GitHub Search
+                </h1>
+                <p>Search for any GitHub projects and see what happens!</p>
+                <div class="input-group input-group-lg col-lg-6 col-md-6 col-sm-8">
+                    <span class="input-group-addon" id="basic-addon1">
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                    </span>
+                    <input type="text" class="form-control" aria-describedby="basic-addon1">
+                </div>
+                <div>
+                    <a class="btn btn-primary btn-lg" href="#" role="button">Let's go</a>
+                    <a class="btn btn-default btn-lg" href="#" role="button">I'm feeling lucky</a>
+                </div>
+            </div>
+        </script>
+
+        <script src="https://code.jquery.com/jquery-1.12.3.min.js" integrity="sha256-aaODHAgvwQW1bFOGXMeX+pC4PZIPsvn2h1sArYOhgXQ=" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular-route.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+        <script src="js/controllers.js"></script>
+        <script src="js/app.js"></script>
+    </body>
+</html>
