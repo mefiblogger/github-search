@@ -10,3 +10,12 @@
 #startpage .input-group {
     margin: 50px auto;
 }
+
+h1 a {
+    color: #333;
+}
+
+h1:hover a {
+    color: #555;
+    text-decoration: none;
+}

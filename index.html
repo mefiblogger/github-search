@@ -48,16 +48,18 @@
                 </div>
                 <div class="jumbotron text-center is-top-aligned" id="search-in-progress" ng-if="!searchInProgress">
                     <h1>
-                        <i class="fa fa-github-alt" aria-hidden="true"></i>
-                        GitHub Search
+                        <a href="#" ng-href="#/">
+                            <i class="fa fa-github-alt" aria-hidden="true"></i>
+                            GitHub Search
+                        </a>
                     </h1>
                     <p ng-if="found > 30">We have {{found}} match for "{{term}}", here's the first 30:</p>
                     <p ng-if="found < 30 && found > 0">Your search for "{{term}}" matched {{found}} repos:</p>
 
                     <div ng-if="found < 1">
-                        <p>Sorry, we have nothing like "{{term}}" on the interweb.</p>
+                        <p>Sorry, we have nothing like "{{term}}" on GitHub.</p>
                         <p>
-                            <a href="/" class="btn btn-primary btn-lg" role="button">
+                            <a ng-href="#/" class="btn btn-primary btn-lg" role="button">
                                 Try again!
                             </a>
                         </p>
@@ -73,7 +75,7 @@
 
                 <div class="container" ng-if="!searchInProgress && found > 0">
                     <div class="list-group is-center-block col-lg-8 col-md-6 col-sm-8">
-                        <a ng-repeat="repo in repositories" href="#" class="list-group-item">
+                        <a ng-repeat="repo in repositories" ng-href="#/repo/{{repo.full_name}}" class="list-group-item">
                             <h4 class="list-group-item-heading">
                                 {{repo.full_name}}
                                 <span class="pull-right">
@@ -85,7 +87,7 @@
                                     {{repo.open_issues}}
                                 </span>
                             </h4>
-                            <p class="list-group-item-text">{{repo.description}}</p>
+                            <p class="list-group-item-text">{{repo.description || "No description. At all."}}</p>
                         </a>
                     </div>
                 </div>
