@@ -26,7 +26,7 @@
                         <span class="input-group-addon" id="basic-addon1">
                             <i class="fa fa-search" aria-hidden="true"></i>
                         </span>
-                        <input type="text" ng-model="searchterm.repo" class="form-control" aria-describedby="basic-addon1">
+                        <input type="text" ng-model="searchterm.repo" class="form-control" aria-describedby="basic-addon1" autofocus />
                     </div>
                     <div>
                         <button type="submit" ng-click="search(searchterm)" class="btn btn-primary btn-lg">Let's go</button>
@@ -69,7 +69,7 @@
                         <p>
                             <i class="fa fa-frown-o" aria-hidden="true"></i>
                         </p>
-                        <p>We have some issues with wires and stuff. Come back again.</p>
+                        <p>We have some issues with wires and stuff. Come back later!</p>
                     </div>
                 </div>
 
@@ -87,9 +87,125 @@
                                     {{repo.open_issues}}
                                 </span>
                             </h4>
-                            <p class="list-group-item-text">{{repo.description || "No description. At all."}}</p>
+                            <p class="list-group-item-text">
+                                {{repo.description | limitTo: 100}}{{ repo.description.length > 100 ? '…' : '' }}
+                                {{repo.description.length < 5 ? 'No description. At all.' : ''}}
+                            </p>
                         </a>
                     </div>
+                    <footer>
+                        <p class="text-center">No luck? <a ng-href="#/">Try again!</a></p>
+                    </footer>
+                </div>
+            </div>
+        </script>
+
+        <script type="text/ng-template" id="githubsearch-tpl-repo">
+            <div ng-controller="SearchCtrl">
+                <div class="jumbotron text-center is-top-aligned" id="search-in-progress" ng-if="searchInProgress">
+                    <h1>
+                        <small><i class="fa fa-github fa-spin fa-3x fa-fw margin-bottom"></i></small>
+                    </h1>
+                    <p>
+                        Feeding Mr. Fusion, hold on&hellip;
+                    </p>
+                </div>
+                <div class="jumbotron text-center is-top-aligned" id="show-repo" ng-if="!searchInProgress">
+                    <h1>
+                        <a href="#" ng-href="#/">
+                            <i class="fa fa-github-alt" aria-hidden="true"></i>
+                            GitHub Search
+                        </a>
+                    </h1>
+
+                    <div ng-if="notFound">
+                        <p>
+                           <i class="fa fa-frown-o" aria-hidden="true"></i>
+                        </p>
+                        <p>Sorry, we've got an ugly 404 type of error.</p>
+                        <p>
+                            <a ng-href="#/" class="btn btn-primary btn-lg" role="button">
+                                Try again!
+                            </a>
+                        </p>
+                    </div>
+
+                    <div ng-if="error">
+                        <p>
+                            <i class="fa fa-frown-o" aria-hidden="true"></i>
+                        </p>
+                        <p>We have some issues with wires and stuff. Come back later!</p>
+                    </div>
+                </div>
+
+                <div class="container" ng-if="!searchInProgress">
+                    <div class="row is-center-block col-lg-8 col-md-6 col-sm-8">
+                        <header class="well">
+                            <h2>
+                                <img alt="avatar" class="avatar" src="{{repo.owner.avatar_url}}" />
+                                {{repo.full_name}}
+                            </h2>
+                            <p>
+                                This <b>{{repo.language}}</b> project has
+                                </b><i class="fa fa-star" aria-hidden="true"></i>
+                                <b>{{repo.stargazers_count || "no"}}</b> stars,
+                                <i class="fa fa-code-fork" aria-hidden="true"></i>
+                                <b>{{repo.forks_count || "no"}}</b> forks and
+                                <i class="fa fa-ticket" aria-hidden="true"></i>
+                                <b>{{repo.open_issues || "no" }}</b> open issues.
+                            </p>
+                        </header>
+                        <section>
+                            <h3 class="page-header">Description</h3>
+                            <p>{{repo.description}}</p>
+                        </section>
+                        <section>
+                            <h3 class="page-header">URLs</h3>
+                            <p>
+                                <b>Git URL:</b>
+                                <pre>{{repo.git_url}}</pre>
+                            </p>
+
+                            <p>
+                                <b>SSH URL:</b>
+                                <pre>{{repo.ssh_url}}</pre>
+                            </p>
+
+                            <p>
+                                <b>GitHub URL:</b>
+                            <pre>{{repo.html_url}}</pre>
+                            </p>
+                        </section>
+                        <section>
+                            <h3 class="page-header">Open issues</h3>
+                            <p ng-if="!repo.open_issues">
+                                No open issues.
+                                <i class="fa fa-smile-o" aria-hidden="true"></i>
+                            </p>
+                            <div class="list-group">
+                                <p>
+                                    This is just the first 30 issues. <a href="{{repo.html_url}}/issues" target="_blank">See all issues on GitHub &raquo;</a>
+                                </p>
+                                <a ng-repeat="issue in issues" href="{{issue.html_url}}" target="_blank" class="list-group-item">
+                                    <h4 class="list-group-item-heading">
+                                        {{issue.title}}
+                                        <img alt="avatar" class="avatar small pull-right" src="{{issue.user.avatar_url}}" />
+                                    </h4>
+                                    <p>
+                                        <span class="label label-default issue-label" ng-repeat="label in issue.labels">
+                                            {{label.name}}
+                                        </span>
+                                    </p>
+                                    <p class="list-group-item-text">
+                                        Issue #{{issue.id}} opened on {{issue.created_at | date : 'fullDate' }} by {{issue.user.login}}.
+                                    </p>
+                                </a>
+                            </div>
+                        </section>
+                    </div>
+                    <footer>
+                        <p class="text-center">You can always do a <a ng-href="#/">new search</a>, if you'd like to!</p>
+                    </footer>
                 </div>
             </div>
         </script>
@@ -98,8 +214,11 @@
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular-route.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
         <script src="js/modules/indexModule.js"></script>
         <script src="js/modules/searchModule.js"></script>
+        <script src="js/modules/repoModule.js"></script>
+
         <script src="js/app.js"></script>
     </body>
 </html>
