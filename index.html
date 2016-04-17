@@ -7,6 +7,7 @@
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" />
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/angular.chartjs/latest/angular-chart.css" />
         <link rel="stylesheet" href="css/base.css" />
     </head>
     <body ng-app="githubsearch">
@@ -101,8 +102,8 @@
         </script>
 
         <script type="text/ng-template" id="githubsearch-tpl-repo">
-            <div ng-controller="SearchCtrl">
-                <div class="jumbotron text-center is-top-aligned" id="search-in-progress" ng-if="searchInProgress">
+            <div ng-controller="RepoCtrl">
+                <div class="jumbotron text-center is-top-aligned" id="repo-view" ng-if="searchInProgress">
                     <h1>
                         <small><i class="fa fa-github fa-spin fa-3x fa-fw margin-bottom"></i></small>
                     </h1>
@@ -130,7 +131,7 @@
                         </p>
                     </div>
 
-                    <div ng-if="error">
+                    <div ng-if="error && !notFound">
                         <p>
                             <i class="fa fa-frown-o" aria-hidden="true"></i>
                         </p>
@@ -138,7 +139,7 @@
                     </div>
                 </div>
 
-                <div class="container" ng-if="!searchInProgress">
+                <div class="container" ng-if="!searchInProgress && !error">
                     <div class="row is-center-block col-lg-8 col-md-6 col-sm-8">
                         <header class="well">
                             <h2>
@@ -175,6 +176,10 @@
                                 <b>GitHub URL:</b>
                             <pre>{{repo.html_url}}</pre>
                             </p>
+                        </section>
+                        <section>
+                            <h3 class="page-header">Some kind of stat</h3>
+                            <canvas id="stat-chart" class="chart chart-radar" chart-data="data" chart-labels="labels"></canvas>
                         </section>
                         <section>
                             <h3 class="page-header">Open issues</h3>
@@ -214,6 +219,8 @@
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular-route.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.1.1/Chart.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/angular.chartjs/latest/angular-chart.min.js"></script>
 
         <script src="js/modules/indexModule.js"></script>
         <script src="js/modules/searchModule.js"></script>

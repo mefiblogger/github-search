@@ -1,10 +1,25 @@
-var repoModule = angular.module('repo', ['ng']);
+var repoModule = angular.module('repo', ['ng', 'chart.js']);
 
 repoModule.controller('RepoCtrl', function ($scope, $routeParams, $http, $q) {
     $scope.error = false;
     $scope.searchInProgress = true;
     $scope.notFound = false;
     $scope.repo = {};
+
+    /**
+     * Initializes data for stat chart.
+     */
+    $scope.initChart = function () {
+        $scope.labels = ["Stars", "Forks", "Issues", "Networks", "Subscribers", "Watchers"];
+        $scope.data = [[
+            $scope.repo.stargazers_count,
+            $scope.repo.forks_count,
+            $scope.repo.open_issues_count,
+            $scope.repo.networks_count,
+            $scope.repo.subscribers_count,
+            $scope.repo.watchers_count
+        ]];
+    };
 
     /**
      * Get repo by owner and ID through GitHub API.
@@ -17,6 +32,12 @@ repoModule.controller('RepoCtrl', function ($scope, $routeParams, $http, $q) {
 
         var finish = function (){
             $scope.searchInProgress = false;
+            $scope.initChart();
+        };
+
+        var error = function () {
+            $scope.searchInProgress = false;
+            $scope.error = true;
         };
 
         $scope.searchInProgress = true;
@@ -35,7 +56,9 @@ repoModule.controller('RepoCtrl', function ($scope, $routeParams, $http, $q) {
 
             $scope.repo = response.data;
         }, function repoError (response) {
-            $scope.error = true;
+            if (response.status === 404) {
+                $scope.notFound = true;
+            }
         }));
 
         // get issues
@@ -44,11 +67,9 @@ repoModule.controller('RepoCtrl', function ($scope, $routeParams, $http, $q) {
             url: 'https://api.github.com/repos/' + ownerAndRepo + '/issues'
         }).then(function issuesSuccess (response) {
             $scope.issues = response.data;
-        }), function issuesError (response) {
-            $scope.error = true;
-        });
+        }));
 
-        $q.all(promises).then(finish);
+        $q.all(promises).then(finish, error);
     };
 
     $scope.getRepoByOwnerAndId($routeParams.owner, $routeParams.repo);
