@@ -5,9 +5,9 @@
 
         <title>GitHub Search</title>
 
-        <link rel="stylesheet" href="css/base.css" />
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" />
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous" />
+        <link rel="stylesheet" href="css/base.css" />
     </head>
     <body ng-app="githubsearch">
         <div class="container" ng-view>
@@ -37,13 +37,58 @@
         </script>
 
         <script type="text/ng-template" id="githubsearch-tpl-search-in-progress">
-            <div class="jumbotron text-center is-top-aligned" id="search-in-progress">
-                <h1>
-                    <small><i class="fa fa-github fa-spin fa-3x fa-fw margin-bottom"></i></small>
-                </h1>
-                <p>
-                    Warming up the flux capacitor, hang on&hellip;
-                </p>
+            <div ng-controller="SearchCtrl">
+                <div class="jumbotron text-center is-top-aligned" id="search-in-progress" ng-if="searchInProgress">
+                    <h1>
+                        <small><i class="fa fa-github fa-spin fa-3x fa-fw margin-bottom"></i></small>
+                    </h1>
+                    <p>
+                        Warming up the flux capacitor, hang on&hellip;
+                    </p>
+                </div>
+                <div class="jumbotron text-center is-top-aligned" id="search-in-progress" ng-if="!searchInProgress">
+                    <h1>
+                        <i class="fa fa-github-alt" aria-hidden="true"></i>
+                        GitHub Search
+                    </h1>
+                    <p ng-if="found > 30">We have {{found}} match for "{{term}}", here's the first 30:</p>
+                    <p ng-if="found < 30 && found > 0">Your search for "{{term}}" matched {{found}} repos:</p>
+
+                    <div ng-if="found < 1">
+                        <p>Sorry, we have nothing like "{{term}}" on the interweb.</p>
+                        <p>
+                            <a href="/" class="btn btn-primary btn-lg" role="button">
+                                Try again!
+                            </a>
+                        </p>
+                    </div>
+
+                    <div ng-if="error">
+                        <p>
+                            <i class="fa fa-frown-o" aria-hidden="true"></i>
+                        </p>
+                        <p>We have some issues with wires and stuff. Come back again.</p>
+                    </div>
+                </div>
+
+                <div class="container" ng-if="!searchInProgress && found > 0">
+                    <div class="list-group is-center-block col-lg-8 col-md-6 col-sm-8">
+                        <a ng-repeat="repo in repositories" href="#" class="list-group-item">
+                            <h4 class="list-group-item-heading">
+                                {{repo.full_name}}
+                                <span class="pull-right">
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    {{repo.stargazers_count}}
+                                    <i class="fa fa-code-fork" aria-hidden="true"></i>
+                                    {{repo.forks_count}}
+                                    <i class="fa fa-ticket" aria-hidden="true"></i>
+                                    {{repo.open_issues}}
+                                </span>
+                            </h4>
+                            <p class="list-group-item-text">{{repo.description}}</p>
+                        </a>
+                    </div>
+                </div>
             </div>
         </script>
 

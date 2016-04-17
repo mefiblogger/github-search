@@ -1,5 +1,10 @@
 .is-top-aligned {
-    margin-top: 10%;
+    margin-top: 5%;
+}
+
+.is-center-block {
+    float: none;
+    margin: 0 auto;
 }
 
 #startpage .input-group {
