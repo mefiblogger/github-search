@@ -13,9 +13,9 @@ indexModule.controller('IndexCtrl', function ($scope, $location) {
     /**
      * Feeling lucky feature
      *
-     * Searching repositories containing the word "mefiblogger".
+     * Searching repositories containing the word "KoviBusz".
      */
     $scope.lucky = function () {
-        $location.path('search/mefiblogger');
+        $location.path('search/KoviBusz');
     };
 });
